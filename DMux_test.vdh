@@ -1,0 +1,49 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity test_dmux is
+end test_dmux;
+
+architecture behavioral of test_dmux is
+
+  component dmux is
+    port (
+      a: in std_logic;
+      sel: in std_logic;
+      out0: out std_logic;
+      out1: out std_logic
+    );
+  end component;
+
+  signal a, sel: std_logic;
+  signal out0, out1: std_logic;
+
+begin
+
+  a <= '1';
+  sel <= '0';
+
+  dmux_instance: dmux port map (
+    a => a,
+    sel => sel,
+    out0 => out0,
+    out1 => out1
+  );
+
+  assert out0 = '1' report "Error: out0 should be '1'" severity failure;
+  assert out1 = '0' report "Error: out1 should be '0'" severity failure;
+
+  a <= '1';
+  sel <= '1';
+
+  dmux_instance: dmux port map (
+    a => a,
+    sel => sel,
+    out0 => out0,
+    out1 => out1
+  );
+
+  assert out0 = '0' report "Error: out0 should be '0'" severity failure;
+  assert out1 = '1' report "Error: out1 should be '1'" severity failure;
+
+end behavioral;
